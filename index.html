@@ -155,6 +155,7 @@
     .ht-line2 {
       display: block; color: var(--yellow);
       position: relative; width: fit-content;
+      margin: 0 auto;
     }
     .ht-line2::after {
       content: '';
@@ -640,6 +641,14 @@
         font-size: 17px;
         margin-bottom: 22px;
       }
+      .hero-title {
+        font-size: clamp(46px, 14vw, 72px);
+        line-height: .9;
+      }
+      .ht-line1,
+      .ht-line2 {
+        text-align: center;
+      }
       .icon-universe { width: 300px; height: 300px; }
       .icon-card { width: 134px; height: 160px; }
       .icon-card img { width: 78px; height: 78px; }
@@ -704,7 +713,8 @@
       .icon-card { width: 118px; height: 142px; border-radius: 22px; }
       .icon-card img { width: 66px; height: 66px; border-radius: 14px; }
       .icon-card-label { letter-spacing: 1px; }
-      .hero-title { font-size: clamp(42px, 16vw, 62px); }
+      .hero-title { font-size: clamp(40px, 15vw, 56px); line-height: .9; }
+      .ht-line2::after { height: 4px; bottom: -3px; }
       .pill { font-size: 13px; padding: 6px 12px; }
       .btn { width: 100%; justify-content: center; }
       .stats-row { grid-template-columns: 1fr; }
