@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Issue — Level Up Daily</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --yellow:  #FFD166;
+      --yellow2: #FFB347;
+      --blue:    #1E9BFF;
+      --blue2:   #1466C9;
+      --green:   #2DBB8A;
+      --purple:  #8D65FF;
+      --pink:    #EF6A8A;
+      --orange:  #F6A63C;
+      --ink:     #1C2F52;
+      --border:  #2E3A59;
+      --bg:      #0D1B2A;
+      --bg2:     #121F30;
+      --bg3:     #172236;
+      --text:    #EAF4FF;
+      --muted:   #6D90B5;
+      --card-bg: #162032;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── Animated cosmic background ── */
+    .cosmic-bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 60% at 15% 20%, rgba(20,102,201,.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 75%, rgba(141,101,255,.14) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 45% at 50% 110%, rgba(45,187,138,.10) 0%, transparent 60%),
+        var(--bg);
+      animation: cosmicDrift 16s ease-in-out infinite alternate;
+    }
+    @keyframes cosmicDrift {
+      0%   { transform: scale(1)    rotate(0deg); }
+      100% { transform: scale(1.08) rotate(2deg); }
+    }
+
+    /* Starfield dots */
+    .cosmic-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1.5px 1.5px at 12% 18%, rgba(200,225,255,.4) 0%, transparent 100%),
+        radial-gradient(1px   1px   at 27% 52%, rgba(200,225,255,.3) 0%, transparent 100%),
+        radial-gradient(2px   2px   at 43% 9%,  rgba(200,225,255,.35) 0%, transparent 100%),
+        radial-gradient(1px   1px   at 58% 66%, rgba(200,225,255,.25) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 74% 33%, rgba(200,225,255,.4) 0%, transparent 100%),
+        radial-gradient(1px   1px   at 88% 79%, rgba(200,225,255,.3) 0%, transparent 100%),
+        radial-gradient(2px   2px   at 6%  88%, rgba(200,225,255,.35) 0%, transparent 100%),
+        radial-gradient(1px   1px   at 92% 11%, rgba(200,225,255,.2) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 35% 40%, rgba(200,225,255,.3) 0%, transparent 100%),
+        radial-gradient(1px   1px   at 67% 90%, rgba(200,225,255,.25) 0%, transparent 100%);
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed; top: 14px; left: 50%; transform: translateX(-50%);
+      z-index: 200;
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(12,23,36,.88);
+      backdrop-filter: blur(18px) saturate(1.4);
+      border: 2.5px solid rgba(46,58,89,.9);
+      border-radius: 999px;
+      padding: 8px 10px 8px 14px;
+      box-shadow: 0 10px 36px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.04), 5px 5px 0 rgba(0,0,0,.3);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 9px;
+      text-decoration: none; margin-right: 8px;
+    }
+    .nav-brand img {
+      width: 30px; height: 30px; border-radius: 8px;
+      border: 2px solid var(--border);
+    }
+    .nav-brand span {
+      font-size: 19px; font-weight: 700;
+      color: var(--yellow); letter-spacing: .3px;
+    }
+    .nav-link {
+      color: var(--muted); text-decoration: none;
+      font-weight: 600; font-size: 14px;
+      padding: 6px 12px; border-radius: 999px;
+      transition: all .2s;
+    }
+    .nav-link:hover { color: var(--text); background: rgba(255,255,255,.06); }
+    .nav-cta {
+      background: var(--yellow); color: var(--ink) !important;
+      border: 2.5px solid var(--border);
+      box-shadow: 3px 3px 0 var(--border);
+      padding: 7px 18px !important;
+      font-size: 14px !important;
+      transition: all .14s !important;
+    }
+    .nav-cta:hover {
+      transform: translate(-1px,-1px) !important;
+      box-shadow: 4px 4px 0 var(--border) !important;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 110px 40px 80px;
+      gap: 56px; flex-wrap: wrap;
+    }
+
+    /* left column */
+    .hero-copy { flex: 1; min-width: 300px; max-width: 540px; }
+
+    .tag-pill {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,209,102,.13);
+      border: 2px solid rgba(255,209,102,.35);
+      border-radius: 999px; padding: 6px 15px;
+      font-size: 13px; font-weight: 700; color: var(--yellow);
+      margin-bottom: 22px;
+      animation: fadeUp .6s ease both;
+    }
+
+    .hero-title {
+      font-size: clamp(54px, 8.5vw, 98px);
+      font-weight: 700; line-height: .95;
+      margin-bottom: 22px;
+      animation: fadeUp .65s .08s ease both;
+    }
+    .ht-line1 { display: block; color: var(--text); }
+    .ht-line2 {
+      display: block; color: var(--yellow);
+      position: relative; width: fit-content;
+    }
+    .ht-line2::after {
+      content: '';
+      position: absolute; bottom: -4px; left: 0; width: 100%; height: 5px;
+      background: var(--yellow); border-radius: 3px; opacity: .55;
+    }
+
+    .hero-sub {
+      font-size: 19px; font-weight: 500; color: var(--muted);
+      line-height: 1.45; margin-bottom: 28px;
+      animation: fadeUp .65s .16s ease both;
+    }
+
+    .pill-row {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 36px;
+      animation: fadeUp .65s .24s ease both;
+    }
+    .pill {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.06);
+      border: 2px solid rgba(255,255,255,.1);
+      border-radius: 999px; padding: 7px 15px;
+      font-size: 14px; font-weight: 600;
+    }
+
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      animation: fadeUp .65s .32s ease both;
+    }
+
+    /* ── CTG BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: 14px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 17px; font-weight: 700;
+      border: 3px solid var(--border);
+      cursor: pointer; text-decoration: none;
+      transition: all .14s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 5px 5px 0 rgba(0,0,0,.55);
+      white-space: nowrap;
+    }
+    .btn:hover  { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 rgba(0,0,0,.55); }
+    .btn:active { transform: translate(2px,2px);   box-shadow: 2px 2px 0 rgba(0,0,0,.55); }
+    .btn-y  { background: var(--yellow); color: var(--ink); }
+    .btn-gh { background: rgba(255,255,255,.07); color: var(--text); border-color: rgba(255,255,255,.18); }
+
+    /* ── ICON UNIVERSE ── */
+    .hero-visual {
+      flex: 1; min-width: 300px; max-width: 460px;
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeUp .8s .1s ease both;
+    }
+
+    .icon-universe {
+      position: relative; width: 380px; height: 380px;
+      perspective: 900px;
+    }
+
+    .orbit-ring {
+      position: absolute; border-radius: 50%;
+      animation: spinRing 24s linear infinite;
+    }
+    .orbit-ring-1 {
+      inset: 14px;
+      border: 2px dashed rgba(255,209,102,.22);
+      animation-duration: 22s;
+    }
+    .orbit-ring-2 {
+      inset: -18px;
+      border: 1.5px dashed rgba(30,155,255,.18);
+      animation-duration: 34s;
+      animation-direction: reverse;
+    }
+    @keyframes spinRing { to { transform: rotate(360deg); } }
+
+    /* Skill orbs on the ring */
+    .s-orb {
+      position: absolute;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; cursor: pointer;
+      box-shadow: 3px 3px 0 rgba(0,0,0,.5);
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .s-orb:hover { transform: var(--base-t) scale(1.3) !important; }
+
+    /* App icon card */
+    .icon-card {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 162px; height: 192px;
+      background: linear-gradient(148deg, #1c3456 0%, #0f1e34 100%);
+      border: 4px solid var(--border);
+      border-radius: 28px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; cursor: pointer;
+      box-shadow:
+        8px 8px 0 rgba(0,0,0,.6),
+        0 0 40px rgba(20,102,201,.28),
+        0 0 80px rgba(20,102,201,.12);
+      animation: floatCard 3.2s ease-in-out infinite;
+      transition: box-shadow .2s;
+    }
+    .icon-card:hover {
+      box-shadow:
+        8px 8px 0 rgba(0,0,0,.6),
+        0 0 60px rgba(255,209,102,.35),
+        0 0 100px rgba(255,209,102,.15);
+    }
+    @keyframes floatCard {
+      0%,100% { transform: translate(-50%,-50%) translateY(0px) rotate(-.5deg); }
+      50%      { transform: translate(-50%,-50%) translateY(-16px) rotate(.5deg); }
+    }
+
+    .icon-card-badge {
+      position: absolute; top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, var(--yellow), var(--yellow2));
+      border: 2.5px solid var(--border);
+      border-radius: 999px; padding: 3px 14px;
+      font-size: 11px; font-weight: 700; color: var(--ink);
+      box-shadow: 2px 2px 0 rgba(0,0,0,.4);
+      white-space: nowrap; letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .icon-card img {
+      width: 94px; height: 94px; border-radius: 20px;
+      border: 3px solid rgba(255,255,255,.14);
+      box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    }
+
+    .icon-card-stars {
+      display: flex; gap: 3px; font-size: 13px;
+    }
+
+    .icon-card-label {
+      font-size: 12px; font-weight: 700;
+      color: var(--yellow); letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* corner sparkles */
+    .sparkle {
+      position: absolute; pointer-events: none;
+      font-size: 18px;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: .1; transform: scale(.6) rotate(0deg); }
+      50%      { opacity: 1;  transform: scale(1) rotate(180deg); }
+    }
+
+    /* XP pop */
+    .xp-pop {
+      position: fixed; z-index: 9999;
+      pointer-events: none;
+      font-weight: 800; font-size: 16px;
+      color: var(--yellow);
+      text-shadow: 1px 1px 0 var(--ink);
+      animation: xpFly .85s ease forwards;
+    }
+    @keyframes xpFly {
+      0%   { opacity: 1; transform: translate(-50%,-50%) scale(.5); }
+      50%  { opacity: 1; transform: translate(-50%,-130%) scale(1.2); }
+      100% { opacity: 0; transform: translate(-50%,-220%) scale(.8); }
+    }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--muted); font-size: 13px; font-weight: 600;
+      animation: bounceHint 2.2s ease-in-out infinite;
+    }
+    @keyframes bounceHint {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(9px); }
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      position: relative; z-index: 1;
+      overflow: hidden;
+      border-top:    2.5px solid rgba(46,58,89,.8);
+      border-bottom: 2.5px solid rgba(46,58,89,.8);
+      background: var(--bg2);
+      padding: 16px 0;
+    }
+    .marquee-track {
+      display: flex; gap: 24px;
+      width: max-content;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    .m-item {
+      display: flex; align-items: center; gap: 9px;
+      background: rgba(255,255,255,.04);
+      border: 2px solid rgba(46,58,89,.7);
+      border-radius: 999px; padding: 7px 18px;
+      font-size: 14px; font-weight: 700; white-space: nowrap;
+    }
+
+    /* ── SHARED SECTION STYLES ── */
+    .s-wrap {
+      position: relative; z-index: 1;
+      max-width: 1180px; margin: 0 auto;
+      padding: 88px 40px;
+    }
+    .s-head { text-align: center; margin-bottom: 56px; }
+    .s-tag {
+      display: inline-block;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 12px;
+    }
+    .s-title {
+      font-size: clamp(30px,4.5vw,50px);
+      font-weight: 700; line-height: 1.1;
+    }
+    .glow-bar {
+      width: 180px; height: 4px;
+      background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+      border-radius: 999px; margin: 16px auto 0;
+    }
+
+    /* ── SKILLS GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      gap: 20px;
+    }
+    .sk-card {
+      background: var(--card-bg);
+      border: 3px solid var(--border);
+      border-radius: 22px; padding: 26px 22px;
+      box-shadow: 5px 5px 0 rgba(0,0,0,.5);
+      transition: all .18s cubic-bezier(.34,1.56,.64,1);
+      cursor: default; position: relative; overflow: hidden;
+    }
+    .sk-card:hover {
+      transform: translateY(-7px) rotate(-.4deg);
+      box-shadow: 9px 13px 0 rgba(0,0,0,.5);
+    }
+    .sk-top-bar {
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      border-radius: 20px 20px 0 0;
+    }
+    .sk-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      border: 2.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; margin-bottom: 14px;
+      box-shadow: 3px 3px 0 rgba(0,0,0,.4);
+    }
+    .sk-name  { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .sk-line  { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .sk-desc  { font-size: 13.5px; color: var(--muted); line-height: 1.4; font-weight: 500; }
+    .sk-pairs {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 14px; background: rgba(255,255,255,.05);
+      border: 1.5px solid rgba(255,255,255,.1);
+      border-radius: 999px; padding: 4px 11px;
+      font-size: 11px; font-weight: 700; color: var(--muted);
+    }
+
+    /* ── XP / STATS STRIP ── */
+    .xp-strip {
+      position: relative; z-index: 1;
+      background: var(--bg2);
+      border-top: 2.5px solid rgba(46,58,89,.8);
+      border-bottom: 2.5px solid rgba(46,58,89,.8);
+    }
+    .xp-inner { max-width: 900px; margin: 0 auto; text-align: center; padding: 88px 40px; }
+    .stats-row { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 48px 0; }
+    .stat-bubble {
+      background: linear-gradient(135deg, var(--bg3), var(--bg2));
+      border: 3px solid var(--border);
+      border-radius: 20px; padding: 24px 32px;
+      box-shadow: 5px 5px 0 rgba(0,0,0,.5);
+      text-align: center; min-width: 140px;
+    }
+    .stat-n { font-size: 46px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+    .stat-l { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+    .xp-bar-wrap {
+      background: rgba(255,255,255,.06);
+      border: 2.5px solid var(--border);
+      border-radius: 999px; height: 28px;
+      overflow: hidden; position: relative;
+      max-width: 600px; margin: 0 auto 14px;
+    }
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--green), var(--yellow));
+      background-size: 200% 100%;
+      border-radius: 999px;
+      box-shadow: 0 0 18px rgba(30,155,255,.5);
+      width: 0;
+      transition: width 1.6s cubic-bezier(.25,.1,.25,1);
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── FEATURES ── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      gap: 24px;
+    }
+    .feat-card {
+      border: 3px solid var(--border);
+      border-radius: 24px; padding: 32px 28px;
+      box-shadow: 5px 5px 0 rgba(0,0,0,.5);
+      transition: all .18s cubic-bezier(.34,1.56,.64,1);
+      overflow: hidden; position: relative;
+    }
+    .feat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 8px 11px 0 rgba(0,0,0,.5);
+    }
+    .feat-emoji { font-size: 46px; margin-bottom: 16px; display: block; }
+    .feat-title { font-size: 23px; font-weight: 700; margin-bottom: 10px; }
+    .feat-text  { font-size: 14.5px; color: var(--muted); line-height: 1.5; font-weight: 500; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      position: relative; z-index: 1;
+      text-align: center; padding: 110px 40px 100px;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(20,102,201,.16) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section::after {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(255,209,102,.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-title { font-size: clamp(36px,5vw,64px); font-weight: 700; line-height: 1.1; margin-bottom: 18px; }
+    .cta-sub   { font-size: 18px; color: var(--muted); font-weight: 500; margin-bottom: 42px; }
+    .cta-btns  { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+
+    /* Pulsing glow on primary CTA */
+    .btn-glow {
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 5px 5px 0 rgba(0,0,0,.55), 0 0 20px rgba(255,209,102,.3); }
+      50%      { box-shadow: 5px 5px 0 rgba(0,0,0,.55), 0 0 44px rgba(255,209,102,.65), 0 0 80px rgba(255,209,102,.2); }
+    }
+
+    /* ── ACHIEVEMENT WALL ── */
+    .ach-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 14px;
+    }
+    .ach-badge {
+      background: var(--card-bg);
+      border: 2.5px solid var(--border);
+      border-radius: 16px; padding: 18px 14px;
+      text-align: center;
+      box-shadow: 4px 4px 0 rgba(0,0,0,.45);
+      transition: all .18s cubic-bezier(.34,1.56,.64,1);
+      cursor: default;
+    }
+    .ach-badge:hover { transform: translateY(-4px) scale(1.03); box-shadow: 6px 8px 0 rgba(0,0,0,.45); }
+    .ach-badge.locked { opacity: .45; filter: grayscale(.6); }
+    .ach-emoji { font-size: 30px; margin-bottom: 8px; display: block; }
+    .ach-name  { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .ach-desc  { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 2.5px solid rgba(46,58,89,.8);
+      padding: 26px 40px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; font-size: 14px; color: var(--muted); font-weight: 600;
+    }
+    footer img { border-radius: 7px; border: 1.5px solid var(--border); }
+
+    /* ── ENTRANCE ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s cubic-bezier(.34,1.56,.64,1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal.delay-1 { transition-delay: .08s; }
+    .reveal.delay-2 { transition-delay: .16s; }
+    .reveal.delay-3 { transition-delay: .24s; }
+    .reveal.delay-4 { transition-delay: .32s; }
+
+    /* ── Decorative floaters ── */
+    .floater {
+      position: fixed; font-size: 28px;
+      pointer-events: none; z-index: 0; opacity: .12;
+      animation: floatDrift 18s ease-in-out infinite;
+    }
+    @keyframes floatDrift {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      33%      { transform: translateY(-28px) rotate(12deg); }
+      66%      { transform: translateY(14px) rotate(-9deg); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { padding: 100px 20px 70px; gap: 40px; }
+      .icon-universe { width: 300px; height: 300px; }
+      .icon-card { width: 134px; height: 160px; }
+      .icon-card img { width: 78px; height: 78px; }
+      nav { padding: 7px 8px 7px 12px; gap: 4px; }
+      .nav-link { display: none; }
+      .s-wrap { padding: 64px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated cosmic BG -->
+  <div class="cosmic-bg"></div>
+
+  <!-- Floating decorative emojis -->
+  <div class="floater" style="top:12%;left:4%;animation-delay:0s;animation-duration:14s">⚡</div>
+  <div class="floater" style="top:22%;right:5%;animation-delay:2.5s;animation-duration:18s">🎯</div>
+  <div class="floater" style="top:55%;left:2%;animation-delay:5s;animation-duration:20s">💎</div>
+  <div class="floater" style="top:68%;right:3%;animation-delay:1s;animation-duration:16s">⭐</div>
+  <div class="floater" style="top:40%;right:1%;animation-delay:3.5s;animation-duration:22s">🔥</div>
+  <div class="floater" style="top:80%;left:6%;animation-delay:7s;animation-duration:15s">🏆</div>
+
+  <!-- ══ NAVBAR ══ -->
+  <nav>
+    <a class="nav-brand" href="#">
+      <img src="icon.png" alt="icon" onerror="this.style.display='none'">
+      <span>Skill Issue</span>
+    </a>
+    <a class="nav-link" href="#skills">Skills</a>
+    <a class="nav-link" href="#features">Features</a>
+    <a class="nav-link" href="#achievements">Awards</a>
+    <a class="nav-link nav-cta" href="#download">Get App</a>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+
+    <div class="hero-copy">
+      <div class="tag-pill">🎮 Free · Offline · No account</div>
+
+      <h1 class="hero-title">
+        <span class="ht-line1">SKILL</span>
+        <span class="ht-line2">ISSUE</span>
+      </h1>
+
+      <p class="hero-sub">
+        Turn your daily life into an RPG.<br>
+        Build skills, earn XP, chain streaks, and level up — for real.
+      </p>
+
+      <div class="pill-row">
+        <div class="pill">🔥 Daily XP tasks</div>
+        <div class="pill">🏆 30+ Achievements</div>
+        <div class="pill">📊 Skill radar tree</div>
+        <div class="pill">📴 100% offline</div>
+      </div>
+
+      <div class="hero-btns">
+        <a href="#download" class="btn btn-y btn-glow" id="iosBtn" style="font-size:20px;padding:18px 36px">
+          🤖 Download APK
+        </a>
+      </div>
+    </div>
+
+    <!-- Icon universe -->
+    <div class="hero-visual">
+      <div class="icon-universe" id="iconUniverse">
+
+        <div class="orbit-ring orbit-ring-1"></div>
+        <div class="orbit-ring orbit-ring-2"></div>
+
+        <!-- 6 skill orbs placed around a circle -->
+        <div class="s-orb" style="top:0;left:50%;transform:translateX(-50%) translateY(-22px);background:linear-gradient(135deg,#5877FF,#7A62FF);--base-t:translateX(-50%) translateY(-22px);" title="Communication" onclick="popXp(event,'💬 +XP')">💬</div>
+        <div class="s-orb" style="top:25%;right:0;transform:translateY(-50%) translateX(22px);background:linear-gradient(135deg,#1E9BFF,#2ED4FF);--base-t:translateY(-50%) translateX(22px);" title="Coding" onclick="popXp(event,'💻 +XP')">💻</div>
+        <div class="s-orb" style="bottom:25%;right:0;transform:translateY(50%) translateX(22px);background:linear-gradient(135deg,#2DBB8A,#53E28A);--base-t:translateY(50%) translateX(22px);" title="Fitness" onclick="popXp(event,'💪 +XP')">💪</div>
+        <div class="s-orb" style="bottom:0;left:50%;transform:translateX(-50%) translateY(22px);background:linear-gradient(135deg,#8D65FF,#B684FF);--base-t:translateX(-50%) translateY(22px);" title="Discipline" onclick="popXp(event,'🎯 +XP')">🎯</div>
+        <div class="s-orb" style="bottom:25%;left:0;transform:translateY(50%) translateX(-22px);background:linear-gradient(135deg,#F6A63C,#FFC663);--base-t:translateY(50%) translateX(-22px);" title="Focus" onclick="popXp(event,'🧘 +XP')">🧘</div>
+        <div class="s-orb" style="top:25%;left:0;transform:translateY(-50%) translateX(-22px);background:linear-gradient(135deg,#EF6A8A,#FF8EB1);--base-t:translateY(-50%) translateX(-22px);" title="Leadership" onclick="popXp(event,'👑 +XP')">👑</div>
+
+        <!-- Corner sparkles -->
+        <div class="sparkle" style="top:9%;right:14%;animation-delay:0s">✨</div>
+        <div class="sparkle" style="top:62%;right:7%;animation-delay:.7s">⭐</div>
+        <div class="sparkle" style="top:13%;left:11%;animation-delay:1.3s">✨</div>
+        <div class="sparkle" style="bottom:11%;left:18%;animation-delay:1s">⭐</div>
+
+        <!-- The icon card (center) -->
+        <div class="icon-card" id="iconCard" onclick="popXp(event,'+25 XP 🔥')">
+          <div class="icon-card-badge">★★★★ Epic</div>
+          <img src="icon.png" alt="Skill Issue"
+               onerror="this.outerHTML='<div style=\'font-size:64px;line-height:1\'>🎮</div>'">
+          <div class="icon-card-stars">⭐⭐⭐⭐⭐</div>
+          <div class="icon-card-label">Skill Issue</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Explore</span><span style="font-size:20px">↓</span>
+    </div>
+  </section>
+
+  <!-- ══ MARQUEE ══ -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <!-- first copy -->
+      <div class="m-item">💬 Communication</div>
+      <div class="m-item">💻 Coding</div>
+      <div class="m-item">💪 Fitness</div>
+      <div class="m-item">🎯 Discipline</div>
+      <div class="m-item">🧘 Focus</div>
+      <div class="m-item">👑 Leadership</div>
+      <div class="m-item">🔥 Daily Streak</div>
+      <div class="m-item">💎 XP &amp; Levels</div>
+      <div class="m-item">🏆 Achievements</div>
+      <div class="m-item">📊 Radar Tree</div>
+      <div class="m-item">⚡ Combo Bonus</div>
+      <div class="m-item">🎲 Daily Reroll</div>
+      <div class="m-item">🌟 Surge Boost</div>
+      <div class="m-item">🕸️ Skill Graph</div>
+      <!-- duplicate for seamless loop -->
+      <div class="m-item">💬 Communication</div>
+      <div class="m-item">💻 Coding</div>
+      <div class="m-item">💪 Fitness</div>
+      <div class="m-item">🎯 Discipline</div>
+      <div class="m-item">🧘 Focus</div>
+      <div class="m-item">👑 Leadership</div>
+      <div class="m-item">🔥 Daily Streak</div>
+      <div class="m-item">💎 XP &amp; Levels</div>
+      <div class="m-item">🏆 Achievements</div>
+      <div class="m-item">📊 Radar Tree</div>
+      <div class="m-item">⚡ Combo Bonus</div>
+      <div class="m-item">🎲 Daily Reroll</div>
+      <div class="m-item">🌟 Surge Boost</div>
+      <div class="m-item">🕸️ Skill Graph</div>
+    </div>
+  </div>
+
+  <!-- ══ SKILLS ══ -->
+  <div id="skills">
+    <div class="s-wrap">
+      <div class="s-head reveal">
+        <div class="s-tag">Choose Your Path</div>
+        <h2 class="s-title">Master 6 Core Skills</h2>
+        <div class="glow-bar"></div>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="sk-card reveal delay-1">
+          <div class="sk-top-bar" style="background:linear-gradient(90deg,#5877FF,#7A62FF)"></div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(88,119,255,.22),rgba(122,98,255,.18))">💬</div>
+          <div class="sk-name" style="color:#8AA0FF">Communication</div>
+          <div class="sk-line" style="color:#5877FF">Voice with impact</div>
+          <div class="sk-desc">Sharpen how you speak, write, and connect. Become the most compelling voice in any room.</div>
+          <div class="sk-pairs"><span style="color:#5877FF">●</span> Syncs with Leadership</div>
+        </div>
+
+        <div class="sk-card reveal delay-2">
+          <div class="sk-top-bar" style="background:linear-gradient(90deg,#1E9BFF,#2ED4FF)"></div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(30,155,255,.22),rgba(46,212,255,.18))">💻</div>
+          <div class="sk-name" style="color:#60BAFF">Coding</div>
+          <div class="sk-line" style="color:#1E9BFF">Build mode activated</div>
+          <div class="sk-desc">Ship code that matters. Debug faster, architect cleaner, think in systems like a pro.</div>
+          <div class="sk-pairs"><span style="color:#1E9BFF">●</span> Syncs with Focus</div>
+        </div>
+
+        <div class="sk-card reveal delay-3">
+          <div class="sk-top-bar" style="background:linear-gradient(90deg,#2DBB8A,#53E28A)"></div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(45,187,138,.22),rgba(83,226,138,.18))">💪</div>
+          <div class="sk-name" style="color:#5DD4A8">Fitness</div>
+          <div class="sk-line" style="color:#2DBB8A">Power your body</div>
+          <div class="sk-desc">Build physical resilience. Track workouts, mobility, and recovery with actual purpose.</div>
+          <div class="sk-pairs"><span style="color:#2DBB8A">●</span> Syncs with Discipline</div>
+        </div>
+
+        <div class="sk-card reveal delay-1">
+          <div class="sk-top-bar" style="background:linear-gradient(90deg,#8D65FF,#B684FF)"></div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(141,101,255,.22),rgba(182,132,255,.18))">🎯</div>
+          <div class="sk-name" style="color:#B090FF">Discipline</div>
+          <div class="sk-line" style="color:#8D65FF">Consistency wins</div>
+          <div class="sk-desc">Show up when it's hard. Build routines that outlast motivation and survive bad days.</div>
+          <div class="sk-pairs"><span style="color:#8D65FF">●</span> Syncs with Focus</div>
+        </div>
+
+        <div class="sk-card reveal delay-2">
+          <div class="sk-top-bar" style="background:linear-gradient(90deg,#F6A63C,#FFC663)"></div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(246,166,60,.22),rgba(255,198,99,.18))">🧘</div>
+          <div class="sk-name" style="color:#FFBE6A">Focus</div>
+          <div class="sk-line" style="color:#F6A63C">Zero in deeply</div>
+          <div class="sk-desc">Eliminate distractions, enter flow states, produce deep work that actually moves needles.</div>
+          <div class="sk-pairs"><span style="color:#F6A63C">●</span> Syncs with Discipline</div>
+        </div>
+
+        <div class="sk-card reveal delay-3">
+          <div class="sk-top-bar" style="background:linear-gradient(90deg,#EF6A8A,#FF8EB1)"></div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(239,106,138,.22),rgba(255,142,177,.18))">👑</div>
+          <div class="sk-name" style="color:#FF96B4">Leadership</div>
+          <div class="sk-line" style="color:#EF6A8A">Lead from the front</div>
+          <div class="sk-desc">Inspire action, align teams, make hard calls. Grow the influence that shapes outcomes.</div>
+          <div class="sk-pairs"><span style="color:#EF6A8A">●</span> Syncs with Communication</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ XP / STATS ══ -->
+  <div class="xp-strip">
+    <div class="xp-inner">
+      <div class="reveal">
+        <div class="s-tag">Real Progress Tracking</div>
+        <h2 class="s-title">Watch yourself level up</h2>
+        <p style="color:var(--muted);font-size:16px;margin-top:10px;font-weight:500">
+          Earn XP with every task. Hit combos for bonus points. Never miss a streak.
+        </p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-bubble reveal delay-1">
+          <div class="stat-n" style="color:var(--yellow)">10</div>
+          <div class="stat-l">Levels per skill</div>
+        </div>
+        <div class="stat-bubble reveal delay-2">
+          <div class="stat-n" style="color:var(--green)">30+</div>
+          <div class="stat-l">Achievements</div>
+        </div>
+        <div class="stat-bubble reveal delay-3">
+          <div class="stat-n" style="color:var(--blue)">6</div>
+          <div class="stat-l">Skills to master</div>
+        </div>
+        <div class="stat-bubble reveal delay-4">
+          <div class="stat-n" style="color:var(--purple)">∞</div>
+          <div class="stat-l">Daily tasks</div>
+        </div>
+      </div>
+
+      <div class="reveal" style="max-width:580px;margin:0 auto">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;font-weight:700;color:var(--muted)">
+          <span>L3 Competent</span>
+          <span style="color:var(--blue)">365 / 520 XP → L4</span>
+        </div>
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-fill" id="xpFill"></div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-size:13px;color:var(--muted);font-weight:700">⚡ Combo +12 XP</span>
+          <span style="color:rgba(255,255,255,.15)">•</span>
+          <span style="font-size:13px;color:var(--muted);font-weight:700">💥 Surge +22 XP</span>
+          <span style="color:rgba(255,255,255,.15)">•</span>
+          <span style="font-size:13px;color:var(--muted);font-weight:700">🔥 Streak ×1.3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FEATURES ══ -->
+  <div id="features">
+    <div class="s-wrap">
+      <div class="s-head reveal">
+        <div class="s-tag">How it works</div>
+        <h2 class="s-title">Built different. Actually works.</h2>
+        <div class="glow-bar"></div>
+      </div>
+
+      <div class="feat-grid">
+
+        <div class="feat-card reveal delay-1" style="background:linear-gradient(148deg,rgba(30,155,255,.09),var(--card-bg))">
+          <span class="feat-emoji">🎲</span>
+          <div class="feat-title">Smart Daily Tasks</div>
+          <div class="feat-text">The task engine reads your level and history to generate the right challenge every day. Not too easy. Not too brutal. Just enough to grow.</div>
+        </div>
+
+        <div class="feat-card reveal delay-2" style="background:linear-gradient(148deg,rgba(255,209,102,.08),var(--card-bg))">
+          <span class="feat-emoji">🕸️</span>
+          <div class="feat-title">Animated Radar Tree</div>
+          <div class="feat-text">A live radar chart shows your entire skill profile at a glance. Tap a node to inspect depth, XP, and upcoming milestones for that branch.</div>
+        </div>
+
+        <div class="feat-card reveal delay-3" style="background:linear-gradient(148deg,rgba(45,187,138,.09),var(--card-bg))">
+          <span class="feat-emoji">📴</span>
+          <div class="feat-title">Fully Offline</div>
+          <div class="feat-text">Zero servers. Zero accounts. Zero tracking. All your progress lives on your device. Delete the app and you never existed. That's the deal.</div>
+        </div>
+
+        <div class="feat-card reveal delay-1" style="background:linear-gradient(148deg,rgba(141,101,255,.09),var(--card-bg))">
+          <span class="feat-emoji">⚡</span>
+          <div class="feat-title">Combo & Surge System</div>
+          <div class="feat-text">Chain completions to trigger combo multipliers. Random surge events drop bonus XP. Every session has a chance to explode with rewards.</div>
+        </div>
+
+        <div class="feat-card reveal delay-2" style="background:linear-gradient(148deg,rgba(239,106,138,.09),var(--card-bg))">
+          <span class="feat-emoji">🔥</span>
+          <div class="feat-title">Streak Protection</div>
+          <div class="feat-text">Your streak is sacred. Build a chain of daily completions and watch the system reward your consistency with tougher, higher-XP challenges.</div>
+        </div>
+
+        <div class="feat-card reveal delay-3" style="background:linear-gradient(148deg,rgba(246,166,60,.08),var(--card-bg))">
+          <span class="feat-emoji">🎯</span>
+          <div class="feat-title">Re-evaluate Anytime</div>
+          <div class="feat-text">Level up in real life? Re-evaluate your tier mid-journey. The engine recalibrates your XP and unlocks harder tasks immediately.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ACHIEVEMENTS ══ -->
+  <div class="xp-strip" id="achievements">
+    <div class="s-wrap">
+      <div class="s-head reveal">
+        <div class="s-tag">Hall of Fame</div>
+        <h2 class="s-title">30+ Achievements to unlock</h2>
+        <div class="glow-bar"></div>
+      </div>
+
+      <div class="ach-grid">
+        <div class="ach-badge reveal delay-1" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
+          <span class="ach-emoji">👣</span>
+          <div class="ach-name" style="color:var(--yellow)">First Step</div>
+          <div class="ach-desc">Complete your first task</div>
+        </div>
+        <div class="ach-badge reveal delay-2" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
+          <span class="ach-emoji">🔥</span>
+          <div class="ach-name" style="color:var(--yellow)">Unbroken Week</div>
+          <div class="ach-desc">7-day streak</div>
+        </div>
+        <div class="ach-badge reveal delay-3" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
+          <span class="ach-emoji">💎</span>
+          <div class="ach-name" style="color:var(--yellow)">XP Reactor</div>
+          <div class="ach-desc">Earn 2,500 total XP</div>
+        </div>
+        <div class="ach-badge reveal delay-4" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
+          <span class="ach-emoji">🌳</span>
+          <div class="ach-name" style="color:var(--yellow)">Full Tree Online</div>
+          <div class="ach-desc">Train all 6 skills</div>
+        </div>
+        <div class="ach-badge reveal delay-1" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
+          <span class="ach-emoji">⚔️</span>
+          <div class="ach-name" style="color:var(--yellow)">Mastery Core</div>
+          <div class="ach-desc">Reach level 10 in a skill</div>
+        </div>
+        <div class="ach-badge reveal delay-2 locked">
+          <span class="ach-emoji">🔒</span>
+          <div class="ach-name">Monthly Machine</div>
+          <div class="ach-desc">30-day streak</div>
+        </div>
+        <div class="ach-badge reveal delay-3 locked">
+          <span class="ach-emoji">🔒</span>
+          <div class="ach-name">XP Singularity</div>
+          <div class="ach-desc">Earn 10,000 total XP</div>
+        </div>
+        <div class="ach-badge reveal delay-4 locked">
+          <span class="ach-emoji">🔒</span>
+          <div class="ach-name">Task Blitz</div>
+          <div class="ach-desc">12 tasks in one day</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CTA ══ -->
+  <section class="cta-section" id="download">
+    <div class="reveal">
+      <div class="s-tag" style="display:block;margin-bottom:14px">Ready?</div>
+      <h2 class="cta-title">
+        Time to fix your<br>
+        <span style="color:var(--yellow)">Skill Issue.</span>
+      </h2>
+      <p class="cta-sub">Free. Offline. No BS.<br>Just you vs your yesterday.</p>
+      <div class="cta-btns">
+        <a href="#" class="btn btn-y btn-glow" style="font-size:22px;padding:20px 48px">
+          🤖 Download APK
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    <img src="icon.png" width="26" height="26" alt=""
+         onerror="this.style.display='none'">
+    <span>Skill Issue</span>
+    <span style="opacity:.35">•</span>
+    <span>Made with 💛 for grinders</span>
+    <span style="opacity:.35">•</span>
+    <span>All data stays on your device.</span>
+  </footer>
+
+  <script>
+    // ── Scroll-reveal ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('in'), i * 60);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── XP bar animation when it enters the viewport ──
+    const xpFill = document.getElementById('xpFill');
+    const xpObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        xpFill.style.width = '70%';
+        xpObs.disconnect();
+      }
+    }, { threshold: 0.4 });
+    xpObs.observe(xpFill);
+
+    // ── XP pop animation ──
+    function popXp(e, label) {
+      e.stopPropagation();
+      const el = document.createElement('div');
+      el.className = 'xp-pop';
+      el.textContent = label || '+XP';
+      el.style.left = e.clientX + 'px';
+      el.style.top  = e.clientY + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 900);
+    }
+
+    // ── Subtle parallax on icon universe ──
+    const universe = document.getElementById('iconUniverse');
+    let rafId;
+    document.addEventListener('mousemove', e => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const x = (e.clientX / window.innerWidth  - 0.5) * 16;
+        const y = (e.clientY / window.innerHeight - 0.5) * 16;
+        if (universe) {
+          universe.style.transform =
+            `perspective(900px) rotateY(${x * 0.4}deg) rotateX(${-y * 0.4}deg)`;
+        }
+      });
+    });
+
+    // ── Orb pulse on hover via JS (for 3-D feel) ──
+    document.querySelectorAll('.s-orb').forEach(orb => {
+      orb.addEventListener('mouseenter', () => {
+        orb.style.boxShadow = `0 0 22px 6px ${getComputedStyle(orb).background.split(',')[1] || 'rgba(255,209,102,.5)'}`;
+      });
+      orb.addEventListener('mouseleave', () => {
+        orb.style.boxShadow = '3px 3px 0 rgba(0,0,0,.5)';
+      });
+    });
+  </script>
+</body>
+</html>
