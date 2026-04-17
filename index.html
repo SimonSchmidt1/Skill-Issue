@@ -148,14 +148,24 @@
     .hero-title {
       font-size: clamp(54px, 8.5vw, 98px);
       font-weight: 700; line-height: .95;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: max-content;
       margin-bottom: 22px;
       animation: fadeUp .65s .08s ease both;
     }
-    .ht-line1 { display: block; color: var(--text); }
+    .ht-line1 {
+      display: block;
+      color: var(--text);
+      text-align: left;
+    }
     .ht-line2 {
       display: block; color: var(--yellow);
-      position: relative; width: fit-content;
-      margin: 0 auto;
+      position: relative;
+      width: auto;
+      margin: 0;
+      text-align: left;
     }
     .ht-line2::after {
       content: '';
@@ -605,6 +615,10 @@
         text-align: center;
         padding-top: 120px;
       }
+      .hero-title {
+        margin-left: auto;
+        margin-right: auto;
+      }
       .hero-copy,
       .hero-visual {
         max-width: 680px;
@@ -645,9 +659,10 @@
         font-size: clamp(46px, 14vw, 72px);
         line-height: .9;
       }
-      .ht-line1,
-      .ht-line2 {
-        text-align: center;
+      .pill-row { margin-bottom: 14px; }
+      .hero-btns {
+        margin-top: -8px;
+        margin-bottom: 18px;
       }
       .icon-universe { width: 300px; height: 300px; }
       .icon-card { width: 134px; height: 160px; }
