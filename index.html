@@ -468,7 +468,7 @@
     /* ── FEATURES ── */
     .feat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
     .feat-card {
@@ -520,27 +520,6 @@
       0%,100% { box-shadow: 5px 5px 0 rgba(0,0,0,.55), 0 0 20px rgba(255,209,102,.3); }
       50%      { box-shadow: 5px 5px 0 rgba(0,0,0,.55), 0 0 44px rgba(255,209,102,.65), 0 0 80px rgba(255,209,102,.2); }
     }
-
-    /* ── ACHIEVEMENT WALL ── */
-    .ach-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
-      gap: 14px;
-    }
-    .ach-badge {
-      background: var(--card-bg);
-      border: 2.5px solid var(--border);
-      border-radius: 16px; padding: 18px 14px;
-      text-align: center;
-      box-shadow: 4px 4px 0 rgba(0,0,0,.45);
-      transition: all .18s cubic-bezier(.34,1.56,.64,1);
-      cursor: default;
-    }
-    .ach-badge:hover { transform: translateY(-4px) scale(1.03); box-shadow: 6px 8px 0 rgba(0,0,0,.45); }
-    .ach-badge.locked { opacity: .45; filter: grayscale(.6); }
-    .ach-emoji { font-size: 30px; margin-bottom: 8px; display: block; }
-    .ach-name  { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-    .ach-desc  { font-size: 11px; color: var(--muted); font-weight: 500; }
 
     /* ── FOOTER ── */
     footer {
@@ -680,7 +659,6 @@
 
       .feat-grid { grid-template-columns: 1fr; }
       .skills-grid { grid-template-columns: 1fr; }
-      .ach-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
       .btn {
         font-size: 16px;
@@ -704,7 +682,6 @@
       }
       .stat-n { font-size: 34px; }
       .cta-sub { font-size: 16px; }
-      .ach-grid { grid-template-columns: 1fr; }
 
       footer {
         flex-wrap: wrap;
@@ -748,7 +725,6 @@
       .btn:hover,
       .sk-card:hover,
       .feat-card:hover,
-      .ach-badge:hover,
       .s-orb:hover {
         transform: none !important;
         box-shadow: inherit;
@@ -783,9 +759,8 @@
       <img src="icon.png" alt="icon" onerror="this.style.display='none'">
       <span>Skill Issue</span>
     </a>
-    <a class="nav-link" href="#skills">Skills</a>
+    <a class="nav-link" href="#how-it-works">How it works</a>
     <a class="nav-link" href="#features">Features</a>
-    <a class="nav-link" href="#achievements">Awards</a>
     <a class="nav-link nav-cta" href="#download">Get App</a>
   </nav>
 
@@ -793,7 +768,7 @@
   <section class="hero">
 
     <div class="hero-copy">
-      <div class="tag-pill">🎮 Free · Offline · No account</div>
+      <div class="tag-pill">🎮 Free · Offline · No account needed</div>
 
       <h1 class="hero-title">
         <span class="ht-line1">SKILL</span>
@@ -801,19 +776,19 @@
       </h1>
 
       <p class="hero-sub">
-        Turn your daily life into an RPG.<br>
-        Build skills, earn XP, chain streaks, and level up — for real.
+        Turn your self-improvement into an RPG.<br>
+        Build your own skill tree, log tasks, earn XP, and level up — for real.
       </p>
 
       <div class="pill-row">
-        <div class="pill">🔥 Daily XP tasks</div>
-        <div class="pill">🏆 30+ Achievements</div>
-        <div class="pill">📊 Skill radar tree</div>
+        <div class="pill">🕸️ Two-level skill web</div>
+        <div class="pill">⭐ Task difficulty stars</div>
+        <div class="pill">🔥 Daily streak</div>
         <div class="pill">📴 100% offline</div>
       </div>
 
       <div class="hero-btns">
-        <a href="https://github.com/SimonSchmidt1/Skill-Issue/releases/latest/download/appka.apk" class="btn btn-y btn-glow" id="iosBtn" style="font-size:20px;padding:18px 36px" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/SimonSchmidt1/Skill-Issue/releases/latest/download/appka.apk" class="btn btn-y btn-glow" style="font-size:20px;padding:18px 36px" target="_blank" rel="noopener noreferrer">
           🤖 Download APK
         </a>
       </div>
@@ -826,13 +801,13 @@
         <div class="orbit-ring orbit-ring-1"></div>
         <div class="orbit-ring orbit-ring-2"></div>
 
-        <!-- 6 skill orbs placed around a circle -->
-        <div class="s-orb" style="top:0;left:50%;transform:translateX(-50%) translateY(-22px);background:linear-gradient(135deg,#5877FF,#7A62FF);--base-t:translateX(-50%) translateY(-22px);" title="Communication" onclick="popXp(event,'💬 +XP')">💬</div>
-        <div class="s-orb" style="top:25%;right:0;transform:translateY(-50%) translateX(22px);background:linear-gradient(135deg,#1E9BFF,#2ED4FF);--base-t:translateY(-50%) translateX(22px);" title="Coding" onclick="popXp(event,'💻 +XP')">💻</div>
-        <div class="s-orb" style="bottom:25%;right:0;transform:translateY(50%) translateX(22px);background:linear-gradient(135deg,#2DBB8A,#53E28A);--base-t:translateY(50%) translateX(22px);" title="Fitness" onclick="popXp(event,'💪 +XP')">💪</div>
-        <div class="s-orb" style="bottom:0;left:50%;transform:translateX(-50%) translateY(22px);background:linear-gradient(135deg,#8D65FF,#B684FF);--base-t:translateX(-50%) translateY(22px);" title="Discipline" onclick="popXp(event,'🎯 +XP')">🎯</div>
-        <div class="s-orb" style="bottom:25%;left:0;transform:translateY(50%) translateX(-22px);background:linear-gradient(135deg,#F6A63C,#FFC663);--base-t:translateY(50%) translateX(-22px);" title="Focus" onclick="popXp(event,'🧘 +XP')">🧘</div>
-        <div class="s-orb" style="top:25%;left:0;transform:translateY(-50%) translateX(-22px);background:linear-gradient(135deg,#EF6A8A,#FF8EB1);--base-t:translateY(-50%) translateX(-22px);" title="Leadership" onclick="popXp(event,'👑 +XP')">👑</div>
+        <!-- 6 skill orbs -->
+        <div class="s-orb" style="top:0;left:50%;transform:translateX(-50%) translateY(-22px);background:linear-gradient(135deg,#5877FF,#7A62FF);--base-t:translateX(-50%) translateY(-22px);" onclick="popXp(event,'💻 +XP')">💻</div>
+        <div class="s-orb" style="top:25%;right:0;transform:translateY(-50%) translateX(22px);background:linear-gradient(135deg,#1E9BFF,#2ED4FF);--base-t:translateY(-50%) translateX(22px);" onclick="popXp(event,'🎨 +XP')">🎨</div>
+        <div class="s-orb" style="bottom:25%;right:0;transform:translateY(50%) translateX(22px);background:linear-gradient(135deg,#2DBB8A,#53E28A);--base-t:translateY(50%) translateX(22px);" onclick="popXp(event,'💪 +XP')">💪</div>
+        <div class="s-orb" style="bottom:0;left:50%;transform:translateX(-50%) translateY(22px);background:linear-gradient(135deg,#8D65FF,#B684FF);--base-t:translateX(-50%) translateY(22px);" onclick="popXp(event,'📚 +XP')">📚</div>
+        <div class="s-orb" style="bottom:25%;left:0;transform:translateY(50%) translateX(-22px);background:linear-gradient(135deg,#F6A63C,#FFC663);--base-t:translateY(50%) translateX(-22px);" onclick="popXp(event,'🎵 +XP')">🎵</div>
+        <div class="s-orb" style="top:25%;left:0;transform:translateY(-50%) translateX(-22px);background:linear-gradient(135deg,#EF6A8A,#FF8EB1);--base-t:translateY(-50%) translateX(-22px);" onclick="popXp(event,'🧠 +XP')">🧠</div>
 
         <!-- Corner sparkles -->
         <div class="sparkle" style="top:9%;right:14%;animation-delay:0s">✨</div>
@@ -841,7 +816,7 @@
         <div class="sparkle" style="bottom:11%;left:18%;animation-delay:1s">⭐</div>
 
         <!-- The icon card (center) -->
-        <div class="icon-card" id="iconCard" onclick="popXp(event,'+25 XP 🔥')">
+        <div class="icon-card" id="iconCard" onclick="popXp(event,'+XP 🔥')">
           <div class="icon-card-badge">★★★★ Epic</div>
           <img src="icon.png" alt="Skill Issue"
                onerror="this.outerHTML='<div style=\'font-size:64px;line-height:1\'>🎮</div>'">
@@ -857,45 +832,35 @@
   <!-- ══ MARQUEE ══ -->
   <div class="marquee-wrap">
     <div class="marquee-track">
-      <!-- first copy -->
-      <div class="m-item">💬 Communication</div>
-      <div class="m-item">💻 Coding</div>
-      <div class="m-item">💪 Fitness</div>
-      <div class="m-item">🎯 Discipline</div>
-      <div class="m-item">🧘 Focus</div>
-      <div class="m-item">👑 Leadership</div>
-      <div class="m-item">🔥 Daily Streak</div>
+      <div class="m-item">🕸️ Skill Web</div>
+      <div class="m-item">⭐ Task Stars</div>
       <div class="m-item">💎 XP &amp; Levels</div>
-      <div class="m-item">🏆 Achievements</div>
-      <div class="m-item">📊 Radar Tree</div>
-      <div class="m-item">⚡ Combo Bonus</div>
-      <div class="m-item">🎲 Daily Reroll</div>
-      <div class="m-item">🌟 Surge Boost</div>
-      <div class="m-item">🕸️ Skill Graph</div>
-      <!-- duplicate for seamless loop -->
-      <div class="m-item">💬 Communication</div>
-      <div class="m-item">💻 Coding</div>
-      <div class="m-item">💪 Fitness</div>
-      <div class="m-item">🎯 Discipline</div>
-      <div class="m-item">🧘 Focus</div>
-      <div class="m-item">👑 Leadership</div>
       <div class="m-item">🔥 Daily Streak</div>
-      <div class="m-item">💎 XP &amp; Levels</div>
       <div class="m-item">🏆 Achievements</div>
-      <div class="m-item">📊 Radar Tree</div>
-      <div class="m-item">⚡ Combo Bonus</div>
-      <div class="m-item">🎲 Daily Reroll</div>
-      <div class="m-item">🌟 Surge Boost</div>
-      <div class="m-item">🕸️ Skill Graph</div>
+      <div class="m-item">📊 Radar Chart</div>
+      <div class="m-item">🎯 Sub-skills</div>
+      <div class="m-item">📴 Fully Offline</div>
+      <div class="m-item">📝 Task History</div>
+      <div class="m-item">🎮 Your Rules</div>
+      <div class="m-item">🕸️ Skill Web</div>
+      <div class="m-item">⭐ Task Stars</div>
+      <div class="m-item">💎 XP &amp; Levels</div>
+      <div class="m-item">🔥 Daily Streak</div>
+      <div class="m-item">🏆 Achievements</div>
+      <div class="m-item">📊 Radar Chart</div>
+      <div class="m-item">🎯 Sub-skills</div>
+      <div class="m-item">📴 Fully Offline</div>
+      <div class="m-item">📝 Task History</div>
+      <div class="m-item">🎮 Your Rules</div>
     </div>
   </div>
 
-  <!-- ══ SKILLS ══ -->
-  <div id="skills">
+  <!-- ══ HOW IT WORKS ══ -->
+  <div id="how-it-works">
     <div class="s-wrap">
       <div class="s-head reveal">
-        <div class="s-tag">Choose Your Path</div>
-        <h2 class="s-title">Master 6 Core Skills</h2>
+        <div class="s-tag">Your Skill Tree</div>
+        <h2 class="s-title">Two levels deep. One clear picture.</h2>
         <div class="glow-bar"></div>
       </div>
 
@@ -903,56 +868,26 @@
 
         <div class="sk-card reveal delay-1">
           <div class="sk-top-bar" style="background:linear-gradient(90deg,#5877FF,#7A62FF)"></div>
-          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(88,119,255,.22),rgba(122,98,255,.18))">💬</div>
-          <div class="sk-name" style="color:#8AA0FF">Communication</div>
-          <div class="sk-line" style="color:#5877FF">Voice with impact</div>
-          <div class="sk-desc">Sharpen how you speak, write, and connect. Become the most compelling voice in any room.</div>
-          <div class="sk-pairs"><span style="color:#5877FF">●</span> Syncs with Leadership</div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(88,119,255,.22),rgba(122,98,255,.18))">🕸️</div>
+          <div class="sk-name" style="color:#8AA0FF">General Skills</div>
+          <div class="sk-line" style="color:#5877FF">Up to 6 on your web</div>
+          <div class="sk-desc">Create any skill you want — Coding, Music, Fitness, anything. They appear as nodes on your personal radar web.</div>
         </div>
 
         <div class="sk-card reveal delay-2">
           <div class="sk-top-bar" style="background:linear-gradient(90deg,#1E9BFF,#2ED4FF)"></div>
-          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(30,155,255,.22),rgba(46,212,255,.18))">💻</div>
-          <div class="sk-name" style="color:#60BAFF">Coding</div>
-          <div class="sk-line" style="color:#1E9BFF">Build mode activated</div>
-          <div class="sk-desc">Ship code that matters. Debug faster, architect cleaner, think in systems like a pro.</div>
-          <div class="sk-pairs"><span style="color:#1E9BFF">●</span> Syncs with Focus</div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(30,155,255,.22),rgba(46,212,255,.18))">🎯</div>
+          <div class="sk-name" style="color:#60BAFF">Sub-skills</div>
+          <div class="sk-line" style="color:#1E9BFF">Up to 6 per skill</div>
+          <div class="sk-desc">Break each skill into sub-skills with their own web. Coding → JavaScript, Python, Algorithms. Each grows independently.</div>
         </div>
 
         <div class="sk-card reveal delay-3">
           <div class="sk-top-bar" style="background:linear-gradient(90deg,#2DBB8A,#53E28A)"></div>
-          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(45,187,138,.22),rgba(83,226,138,.18))">💪</div>
-          <div class="sk-name" style="color:#5DD4A8">Fitness</div>
-          <div class="sk-line" style="color:#2DBB8A">Power your body</div>
-          <div class="sk-desc">Build physical resilience. Track workouts, mobility, and recovery with actual purpose.</div>
-          <div class="sk-pairs"><span style="color:#2DBB8A">●</span> Syncs with Discipline</div>
-        </div>
-
-        <div class="sk-card reveal delay-1">
-          <div class="sk-top-bar" style="background:linear-gradient(90deg,#8D65FF,#B684FF)"></div>
-          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(141,101,255,.22),rgba(182,132,255,.18))">🎯</div>
-          <div class="sk-name" style="color:#B090FF">Discipline</div>
-          <div class="sk-line" style="color:#8D65FF">Consistency wins</div>
-          <div class="sk-desc">Show up when it's hard. Build routines that outlast motivation and survive bad days.</div>
-          <div class="sk-pairs"><span style="color:#8D65FF">●</span> Syncs with Focus</div>
-        </div>
-
-        <div class="sk-card reveal delay-2">
-          <div class="sk-top-bar" style="background:linear-gradient(90deg,#F6A63C,#FFC663)"></div>
-          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(246,166,60,.22),rgba(255,198,99,.18))">🧘</div>
-          <div class="sk-name" style="color:#FFBE6A">Focus</div>
-          <div class="sk-line" style="color:#F6A63C">Zero in deeply</div>
-          <div class="sk-desc">Eliminate distractions, enter flow states, produce deep work that actually moves needles.</div>
-          <div class="sk-pairs"><span style="color:#F6A63C">●</span> Syncs with Discipline</div>
-        </div>
-
-        <div class="sk-card reveal delay-3">
-          <div class="sk-top-bar" style="background:linear-gradient(90deg,#EF6A8A,#FF8EB1)"></div>
-          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(239,106,138,.22),rgba(255,142,177,.18))">👑</div>
-          <div class="sk-name" style="color:#FF96B4">Leadership</div>
-          <div class="sk-line" style="color:#EF6A8A">Lead from the front</div>
-          <div class="sk-desc">Inspire action, align teams, make hard calls. Grow the influence that shapes outcomes.</div>
-          <div class="sk-pairs"><span style="color:#EF6A8A">●</span> Syncs with Communication</div>
+          <div class="sk-icon" style="background:linear-gradient(135deg,rgba(45,187,138,.22),rgba(83,226,138,.18))">⭐</div>
+          <div class="sk-name" style="color:#5DD4A8">Add Tasks</div>
+          <div class="sk-line" style="color:#2DBB8A">Rate difficulty 1–5 stars</div>
+          <div class="sk-desc">Log what you actually did. Name the task, set the difficulty — 1 star for easy, 5 for something brutal. XP follows.</div>
         </div>
 
       </div>
@@ -963,46 +898,46 @@
   <div class="xp-strip">
     <div class="xp-inner">
       <div class="reveal">
-        <div class="s-tag">Real Progress Tracking</div>
-        <h2 class="s-title">Watch yourself level up</h2>
+        <div class="s-tag">Progress System</div>
+        <h2 class="s-title">XP, levels, streaks.</h2>
         <p style="color:var(--muted);font-size:16px;margin-top:10px;font-weight:500">
-          Earn XP with every task. Hit combos for bonus points. Never miss a streak.
+          Every task earns XP. Every sub-skill levels up independently. Keep your streak alive.
         </p>
       </div>
 
       <div class="stats-row">
         <div class="stat-bubble reveal delay-1">
           <div class="stat-n" style="color:var(--yellow)">10</div>
-          <div class="stat-l">Levels per skill</div>
+          <div class="stat-l">Levels per sub-skill</div>
         </div>
         <div class="stat-bubble reveal delay-2">
-          <div class="stat-n" style="color:var(--green)">30+</div>
-          <div class="stat-l">Achievements</div>
+          <div class="stat-n" style="color:var(--green)">6</div>
+          <div class="stat-l">Skills on your web</div>
         </div>
         <div class="stat-bubble reveal delay-3">
-          <div class="stat-n" style="color:var(--blue)">6</div>
-          <div class="stat-l">Skills to master</div>
+          <div class="stat-n" style="color:var(--blue)">36</div>
+          <div class="stat-l">Max sub-skills total</div>
         </div>
         <div class="stat-bubble reveal delay-4">
-          <div class="stat-n" style="color:var(--purple)">∞</div>
-          <div class="stat-l">Daily tasks</div>
+          <div class="stat-n" style="color:var(--purple)">5★</div>
+          <div class="stat-l">Difficulty tiers</div>
         </div>
       </div>
 
       <div class="reveal" style="max-width:580px;margin:0 auto">
         <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;font-weight:700;color:var(--muted)">
-          <span>L3 Competent</span>
-          <span style="color:var(--blue)">365 / 520 XP → L4</span>
+          <span>Level 3</span>
+          <span style="color:var(--blue)">365 / 520 XP → Level 4</span>
         </div>
         <div class="xp-bar-wrap">
           <div class="xp-bar-fill" id="xpFill"></div>
         </div>
         <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px">
-          <span style="font-size:13px;color:var(--muted);font-weight:700">⚡ Combo +12 XP</span>
+          <span style="font-size:13px;color:var(--muted);font-weight:700">⭐ 1 star = 10 XP</span>
           <span style="color:rgba(255,255,255,.15)">•</span>
-          <span style="font-size:13px;color:var(--muted);font-weight:700">💥 Surge +22 XP</span>
+          <span style="font-size:13px;color:var(--muted);font-weight:700">⭐⭐⭐ 3 stars = 60 XP</span>
           <span style="color:rgba(255,255,255,.15)">•</span>
-          <span style="font-size:13px;color:var(--muted);font-weight:700">🔥 Streak ×1.3</span>
+          <span style="font-size:13px;color:var(--muted);font-weight:700">⭐⭐⭐⭐⭐ 5 stars = 150 XP</span>
         </div>
       </div>
     </div>
@@ -1013,102 +948,36 @@
     <div class="s-wrap">
       <div class="s-head reveal">
         <div class="s-tag">How it works</div>
-        <h2 class="s-title">Built different. Actually works.</h2>
+        <h2 class="s-title">Simple. Powerful. Yours.</h2>
         <div class="glow-bar"></div>
       </div>
 
       <div class="feat-grid">
 
         <div class="feat-card reveal delay-1" style="background:linear-gradient(148deg,rgba(30,155,255,.09),var(--card-bg))">
-          <span class="feat-emoji">🎲</span>
-          <div class="feat-title">Smart Daily Tasks</div>
-          <div class="feat-text">The task engine reads your level and history to generate the right challenge every day. Not too easy. Not too brutal. Just enough to grow.</div>
+          <span class="feat-emoji">🕸️</span>
+          <div class="feat-title">Dynamic Skill Web</div>
+          <div class="feat-text">Your skills live on a spider-web radar chart. As you level up, your web grows and fills. One glance tells you exactly where you stand.</div>
         </div>
 
         <div class="feat-card reveal delay-2" style="background:linear-gradient(148deg,rgba(255,209,102,.08),var(--card-bg))">
-          <span class="feat-emoji">🕸️</span>
-          <div class="feat-title">Animated Radar Tree</div>
-          <div class="feat-text">A live radar chart shows your entire skill profile at a glance. Tap a node to inspect depth, XP, and upcoming milestones for that branch.</div>
+          <span class="feat-emoji">🎯</span>
+          <div class="feat-title">Two-Level Hierarchy</div>
+          <div class="feat-text">General skills break into sub-skills, each with their own web and XP track. Go as deep as you want. Up to 6 general skills, 6 sub-skills each.</div>
         </div>
 
         <div class="feat-card reveal delay-3" style="background:linear-gradient(148deg,rgba(45,187,138,.09),var(--card-bg))">
           <span class="feat-emoji">📴</span>
           <div class="feat-title">Fully Offline</div>
-          <div class="feat-text">Zero servers. Zero accounts. Zero tracking. All your progress lives on your device. Delete the app and you never existed. That's the deal.</div>
+          <div class="feat-text">Zero servers. Zero accounts. Zero tracking. All your progress lives on your device. No login, no cloud, no nonsense.</div>
         </div>
 
-        <div class="feat-card reveal delay-1" style="background:linear-gradient(148deg,rgba(141,101,255,.09),var(--card-bg))">
-          <span class="feat-emoji">⚡</span>
-          <div class="feat-title">Combo & Surge System</div>
-          <div class="feat-text">Chain completions to trigger combo multipliers. Random surge events drop bonus XP. Every session has a chance to explode with rewards.</div>
+        <div class="feat-card reveal delay-1" style="background:linear-gradient(148deg,rgba(246,166,60,.08),var(--card-bg))">
+          <span class="feat-emoji">📝</span>
+          <div class="feat-title">Task History</div>
+          <div class="feat-text">Every task you log stays in your history with XP earned and timestamp. See exactly what you've done and when you did it.</div>
         </div>
 
-        <div class="feat-card reveal delay-2" style="background:linear-gradient(148deg,rgba(239,106,138,.09),var(--card-bg))">
-          <span class="feat-emoji">🔥</span>
-          <div class="feat-title">Streak Protection</div>
-          <div class="feat-text">Your streak is sacred. Build a chain of daily completions and watch the system reward your consistency with tougher, higher-XP challenges.</div>
-        </div>
-
-        <div class="feat-card reveal delay-3" style="background:linear-gradient(148deg,rgba(246,166,60,.08),var(--card-bg))">
-          <span class="feat-emoji">🎯</span>
-          <div class="feat-title">Re-evaluate Anytime</div>
-          <div class="feat-text">Level up in real life? Re-evaluate your tier mid-journey. The engine recalibrates your XP and unlocks harder tasks immediately.</div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ ACHIEVEMENTS ══ -->
-  <div class="xp-strip" id="achievements">
-    <div class="s-wrap">
-      <div class="s-head reveal">
-        <div class="s-tag">Hall of Fame</div>
-        <h2 class="s-title">30+ Achievements to unlock</h2>
-        <div class="glow-bar"></div>
-      </div>
-
-      <div class="ach-grid">
-        <div class="ach-badge reveal delay-1" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
-          <span class="ach-emoji">👣</span>
-          <div class="ach-name" style="color:var(--yellow)">First Step</div>
-          <div class="ach-desc">Complete your first task</div>
-        </div>
-        <div class="ach-badge reveal delay-2" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
-          <span class="ach-emoji">🔥</span>
-          <div class="ach-name" style="color:var(--yellow)">Unbroken Week</div>
-          <div class="ach-desc">7-day streak</div>
-        </div>
-        <div class="ach-badge reveal delay-3" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
-          <span class="ach-emoji">💎</span>
-          <div class="ach-name" style="color:var(--yellow)">XP Reactor</div>
-          <div class="ach-desc">Earn 2,500 total XP</div>
-        </div>
-        <div class="ach-badge reveal delay-4" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
-          <span class="ach-emoji">🌳</span>
-          <div class="ach-name" style="color:var(--yellow)">Full Tree Online</div>
-          <div class="ach-desc">Train all 6 skills</div>
-        </div>
-        <div class="ach-badge reveal delay-1" style="border-color:rgba(255,209,102,.5);background:linear-gradient(135deg,rgba(255,209,102,.08),var(--card-bg))">
-          <span class="ach-emoji">⚔️</span>
-          <div class="ach-name" style="color:var(--yellow)">Mastery Core</div>
-          <div class="ach-desc">Reach level 10 in a skill</div>
-        </div>
-        <div class="ach-badge reveal delay-2 locked">
-          <span class="ach-emoji">🔒</span>
-          <div class="ach-name">Monthly Machine</div>
-          <div class="ach-desc">30-day streak</div>
-        </div>
-        <div class="ach-badge reveal delay-3 locked">
-          <span class="ach-emoji">🔒</span>
-          <div class="ach-name">XP Singularity</div>
-          <div class="ach-desc">Earn 10,000 total XP</div>
-        </div>
-        <div class="ach-badge reveal delay-4 locked">
-          <span class="ach-emoji">🔒</span>
-          <div class="ach-name">Task Blitz</div>
-          <div class="ach-desc">12 tasks in one day</div>
-        </div>
       </div>
     </div>
   </div>
@@ -1191,7 +1060,7 @@
       });
     });
 
-    // ── Orb pulse on hover via JS (for 3-D feel) ──
+    // ── Orb pulse on hover via JS ──
     document.querySelectorAll('.s-orb').forEach(orb => {
       orb.addEventListener('mouseenter', () => {
         orb.style.boxShadow = `0 0 22px 6px ${getComputedStyle(orb).background.split(',')[1] || 'rgba(255,209,102,.5)'}`;
